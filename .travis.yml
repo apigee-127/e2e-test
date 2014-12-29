@@ -1,0 +1,7 @@
+language: node_js
+install:
+  - npm install -g apigee-127
+os:
+  - linux
+  - osx
+  # - windows # Windows is not yet supported by TravisCI
