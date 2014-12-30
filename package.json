@@ -4,7 +4,7 @@
   "description": "a127 end to end test suite",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "node test-runner.js"
   },
   "keywords": [
     "a127"
