@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - "0.11"
   - "0.10"
-  - "0.8"
 os:
   - linux
   # - osx # Node.js on OSX is not yet supported by TravisCI
