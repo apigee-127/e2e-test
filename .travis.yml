@@ -1,9 +1,9 @@
 language: node_js
-install:
-  - npm install
-  - npm install -g nvm # Install nvm for OSX on TravisCI. Remove when nvm is available in TravisCI
-  - npm install -g apigee-127
+node_js:
+  - "0.11"
+  - "0.10"
+  - "0.8"
 os:
   - linux
-  - osx
+  # - osx # Node.js on OSX is not yet supported by TravisCI
   # - windows # Windows is not yet supported by TravisCI
