@@ -21,7 +21,7 @@ describe('project', function() {
 
   function startEdit(){
     it('starts the edit server with `a127 project edit` command', function (done) {
-      editProccess = spawn('a127', ['project', 'edit'], {cwd: cwd});
+      editProccess = spawn('a127', ['project', 'edit'], {cwd: cwd, detached: true});
 
       var output = '';
       editProccess.stdout.on('data', function (data) { output += data; });
@@ -42,7 +42,7 @@ describe('project', function() {
 
   function startServer() {
     it('starts the server with `a127 project start` command', function (done) {
-      serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd});
+      serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd, detached: true});
 
       var output = '';
       serverProccess.stdout.on('data', function (data) { output += data; });
@@ -65,7 +65,7 @@ describe('project', function() {
   function killServer() {
     it('kills the server process', function (done) {
       setImmediate(function () {
-        serverProccess.kill('SIGINT');
+        process.kill(-serverProccess.pid);
         expect(serverProccess.connected).to.be.false;
         done();
       });
@@ -75,7 +75,7 @@ describe('project', function() {
   function killEditServer() {
      it('kills the edit server process', function (done) {
       setImmediate(function () {
-        editProccess.kill('SIGINT');
+        process.kill(-editProccess.pid);
         expect(editProccess.connected).to.be.false;
         done();
       });
