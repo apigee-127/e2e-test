@@ -68,7 +68,7 @@ describe('project', function() {
     });
 
     it('kills the server process', function () {
-      serverProccess.kill();
+      process.kill(serverProccess);
       expect(serverProccess.connected).to.be.false;
     });
   });
