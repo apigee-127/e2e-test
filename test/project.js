@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var expect = require('chai').expect;
 var mkdirp = require('mkdirp');
 var request = require('request');
@@ -20,12 +21,7 @@ describe('project', function() {
 
   function startEdit(){
     it('starts the edit server with `a127 project edit` command', function (done) {
-      editProccess = exec('a127 project edit', {cwd: cwd}, function (error, stdout, stderr) {
-
-        // after killing edit there should be no error
-        expect(error).to.be.falsy;
-        expect(stderr).to.be.falsy;
-      });
+      editProccess = spawn('a127', ['project', 'edit'], {cwd: cwd});
 
       var output = '';
       editProccess.stdout.on('data', function (data) { output += data; });
@@ -46,12 +42,7 @@ describe('project', function() {
 
   function startServer() {
     it('starts the server with `a127 project start` command', function (done) {
-      serverProccess = exec('a127 project start', {cwd: cwd}, function (error, stdout, stderr) {
-
-        // after killing server there should be no errors
-        expect(error).to.be.falsy;
-        expect(stderr).to.be.falsy;
-      });
+      serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd});
 
       var output = '';
       serverProccess.stdout.on('data', function (data) { output += data; });
@@ -73,17 +64,21 @@ describe('project', function() {
 
   function killServer() {
     it('kills the server process', function (done) {
-      serverProccess.kill()
-      expect(serverProccess.connected).to.be.false;
-      setTimeout(done, 1000);
+      setImmediate(function () {
+        serverProccess.kill('SIGINT');
+        expect(serverProccess.connected).to.be.false;
+        done();
+      });
     });
   }
 
   function killEditServer() {
      it('kills the edit server process', function (done) {
-      editProccess.kill();
-      expect(editProccess.connected).to.be.false;
-      setTimeout(done, 1000);
+      setImmediate(function () {
+        editProccess.kill('SIGINT');
+        expect(editProccess.connected).to.be.false;
+        done();
+      });
     });
   }
 
