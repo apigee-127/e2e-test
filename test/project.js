@@ -6,7 +6,7 @@ var expect = require('chai').expect;
 var mkdirp = require('mkdirp');
 var request = require('request');
 
-var SERVER_START_TIME = process.env.TIMEOUT || 3000;
+var TIMEOUT = process.env.TIMEOUT || 3000;
 
 describe('project', function() {
   var rand = Math.random().toString(36).substr(2);
@@ -16,7 +16,7 @@ describe('project', function() {
   var editProccess;
 
   console.log('testing in', cwd);
-  this.timeout(5000);
+  this.timeout(2 * TIMEOUT);
 
 
   function startEdit(){
@@ -35,7 +35,7 @@ describe('project', function() {
           }
         });
         done();
-      }, SERVER_START_TIME);
+      }, TIMEOUT);
     });
   }
 
@@ -49,14 +49,14 @@ describe('project', function() {
       setTimeout(function () {
         expect(output).to.contain('project started');
         done();
-      }, SERVER_START_TIME);
+      }, TIMEOUT);
     });
   }
 
   function restartServer() {
     it('restarts the server', function (done){
       serverProccess.stdin.write('re');
-      setTimeout(done, SERVER_START_TIME);
+      setTimeout(done, TIMEOUT);
     });
   };
 
@@ -91,7 +91,7 @@ describe('project', function() {
     });
 
     it('makes hello-world app by executing `a127 project create hello-world`', function (done) {
-        this.timeout(60 * 1000);
+        this.timeout(20 * TIMEOUT);
 
         var create = exec('a127 project create hello-world', {cwd: cwd}, function (error, stdout, stderr) {
             expect(error).to.be.falsy;
