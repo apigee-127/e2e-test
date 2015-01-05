@@ -6,7 +6,7 @@ var expect = require('chai').expect;
 var mkdirp = require('mkdirp');
 var request = require('request');
 
-
+var SERVER_START_TIME = 3000;
 
 describe('project', function() {
   var rand = Math.random().toString(36).substr(2);
@@ -26,7 +26,6 @@ describe('project', function() {
       var output = '';
       editProccess.stdout.on('data', function (data) { output += data; });
 
-      // wait 1 second for server to start then go to next test
       setTimeout(function () {
         expect(output).to.contain('Starting Swagger editor.');
         output.split('\n').forEach(function (line) {
@@ -36,7 +35,7 @@ describe('project', function() {
           }
         });
         done();
-      }, 3000);
+      }, SERVER_START_TIME);
     });
   }
 
@@ -47,18 +46,17 @@ describe('project', function() {
       var output = '';
       serverProccess.stdout.on('data', function (data) { output += data; });
 
-      // wait 1 second for server to start then go to next test
       setTimeout(function () {
         expect(output).to.contain('project started');
         done();
-      }, 1000);
+      }, SERVER_START_TIME);
     });
   }
 
   function restartServer() {
     it('restarts the server', function (done){
       serverProccess.stdin.write('re');
-      setTimeout(done, 1000);
+      setTimeout(done, SERVER_START_TIME);
     });
   };
 
