@@ -5,6 +5,7 @@ var spawn = require('child_process').spawn;
 var expect = require('chai').expect;
 var mkdirp = require('mkdirp');
 var request = require('request');
+var running = require('is-running')
 
 var TIMEOUT = process.env.TIMEOUT || 3000;
 
@@ -62,8 +63,10 @@ describe('project', function() {
 
   function killServer() {
     it('kills the server process', function (done) {
-      setImmediate(function () {
-        process.kill(-serverProccess.pid, 'SIGTERM');
+      running(serverProccess.pid, function (err, live) {
+        if (live) {
+          process.kill(-serverProccess.pid, 'SIGTERM');
+        }
         expect(serverProccess.connected).to.be.false;
         done();
       });
@@ -72,8 +75,10 @@ describe('project', function() {
 
   function killEditServer() {
      it('kills the edit server process', function (done) {
-      setImmediate(function () {
-        process.kill(-editProccess.pid, 'SIGTERM');
+      running(editProccess.pid, function (error, live) {
+        if (live) {
+          process.kill(-editProccess.pid, 'SIGTERM');
+        }
         expect(editProccess.connected).to.be.false;
         done();
       });
