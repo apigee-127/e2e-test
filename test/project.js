@@ -85,6 +85,20 @@ describe('project', function() {
     });
   }
 
+  function putYaml(yamlFileName, done) {
+    var filePath = path.join(__dirname, '..', 'yaml/' + yamlFileName + '.yaml');
+    var yamlFile = fs.readFileSync(filePath).toString();
+
+    request({
+      method: 'PUT',
+      url: editServerUrl,
+      body: yamlFile
+    }, function (error, response, body) {
+      expect(error).to.be.falsy;
+      done();
+    });
+  }
+
   describe('create', function() {
     it('makes a folder for a127 project', function (done) {
 
@@ -140,17 +154,7 @@ describe('project', function() {
     startEdit();
 
     it('updates the /hello path to /my-path', function (done) {
-      var filePath = path.join(__dirname, '..', 'yaml/1_updated_path.yaml');
-      var yamlFile = fs.readFileSync(filePath).toString();
-
-      request({
-        method: 'PUT',
-        url: editServerUrl,
-        body: yamlFile
-      }, function (error, response, body) {
-        expect(error).to.be.falsy;
-        done();
-      });
+      putYaml('1_updated_path', done);
     });
 
     restartServer();
