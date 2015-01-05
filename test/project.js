@@ -6,7 +6,7 @@ var expect = require('chai').expect;
 var mkdirp = require('mkdirp');
 var request = require('request');
 
-var SERVER_START_TIME = 3000;
+var SERVER_START_TIME = process.env.TIMEOUT || 3000;
 
 describe('project', function() {
   var rand = Math.random().toString(36).substr(2);
