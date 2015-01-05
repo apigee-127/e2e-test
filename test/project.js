@@ -63,7 +63,7 @@ describe('project', function() {
   function killServer() {
     it('kills the server process', function (done) {
       setImmediate(function () {
-        process.kill(-serverProccess.pid);
+        process.kill(-serverProccess.pid, 'SIGTERM');
         expect(serverProccess.connected).to.be.false;
         done();
       });
@@ -73,7 +73,7 @@ describe('project', function() {
   function killEditServer() {
      it('kills the edit server process', function (done) {
       setImmediate(function () {
-        process.kill(-editProccess.pid);
+        process.kill(-editProccess.pid, 'SIGTERM');
         expect(editProccess.connected).to.be.false;
         done();
       });
