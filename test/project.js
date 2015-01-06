@@ -21,18 +21,17 @@ xdescribe('project', function() {
   console.log('testing in', cwd);
   this.timeout(2 * TIMEOUT);
 
-
-  function startEdit(){
-    it('starts the edit server with `a127 project edit` command', function (done) {
+  function startEdit() {
+    it('starts the edit server with `a127 project edit` command', function(done) {
       editProccess = spawn('a127', ['project', 'edit'], {cwd: cwd, detached: true});
 
       var output = '';
-      editProccess.stdout.on('data', function (data) { output += data; });
+      editProccess.stdout.on('data', function(data) { output += data; });
 
-      setTimeout(function () {
+      setTimeout(function() {
         expect(output).to.contain('Starting Swagger editor.');
-        output.split('\n').forEach(function (line) {
-          if (line.indexOf('Opening browser to:') > -1 ) {
+        output.split('\n').forEach(function(line) {
+          if (line.indexOf('Opening browser to:') > -1) {
             editServerUrl = line.substr(line.indexOf('to: ') + 4);
             editServerUrl = editServerUrl.substr(0, editServerUrl.indexOf('#')) + 'editor/spec';
           }
@@ -43,13 +42,13 @@ xdescribe('project', function() {
   }
 
   function startServer() {
-    it('starts the server with `a127 project start` command', function (done) {
+    it('starts the server with `a127 project start` command', function(done) {
       serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd, detached: true});
 
       var output = '';
-      serverProccess.stdout.on('data', function (data) { output += data; });
+      serverProccess.stdout.on('data', function(data) { output += data; });
 
-      setTimeout(function () {
+      setTimeout(function() {
         expect(output).to.contain('project started');
         done();
       }, TIMEOUT);
@@ -57,15 +56,15 @@ xdescribe('project', function() {
   }
 
   function restartServer() {
-    it('restarts the server', function (done){
+    it('restarts the server', function(done) {
       serverProccess.stdin.write('re');
       setTimeout(done, TIMEOUT);
     });
   }
 
   function killServer() {
-    it('kills the server process', function (done) {
-      running(serverProccess.pid, function (err, live) {
+    it('kills the server process', function(done) {
+      running(serverProccess.pid, function(err, live) {
         if (live) {
           process.kill(-serverProccess.pid, 'SIGTERM');
         }
@@ -76,8 +75,8 @@ xdescribe('project', function() {
   }
 
   function killEditServer() {
-     it('kills the edit server process', function (done) {
-      running(editProccess.pid, function (error, live) {
+    it('kills the edit server process', function(done) {
+      running(editProccess.pid, function(error, live) {
         if (live) {
           process.kill(-editProccess.pid, 'SIGTERM');
         }
@@ -97,11 +96,11 @@ xdescribe('project', function() {
       method: 'PUT',
       url: editServerUrl,
       body: yamlFile
-    }, function (error) {
+    }, function(error) {
       expect(error).to.be.falsy;
 
       // read the file from fs and make sure it's the yamlFile then done
-      fs.readFile(swaggerYamlPath, function (err, file) {
+      fs.readFile(swaggerYamlPath, function(err, file) {
         expect(err).to.be.falsy;
         expect(file.toString()).to.equal(yamlFile);
         done();
@@ -115,39 +114,39 @@ xdescribe('project', function() {
     var controllerPath  = path.join(__dirname, '..', 'controller', controllerFileName + '.js');
     var controller = fs.readFileSync(controllerPath);
 
-    fs.writeFile(projectControllerPath, controller, function (err) {
+    fs.writeFile(projectControllerPath, controller, function(err) {
       expect(err).to.be.falsy;
       done();
     });
   }
 
   describe('create', function() {
-    it('makes a folder for a127 project', function (done) {
+    it('makes a folder for a127 project', function(done) {
 
-      mkdirp(cwd, function (error){
+      mkdirp(cwd, function(error) {
         expect(error).to.be.falsy;
         expect(fs.existsSync(cwd)).to.be.true;
         done();
       });
     });
 
-    it('makes hello-world app by executing `a127 project create hello-world`', function (done) {
-        this.timeout(20 * TIMEOUT);
+    it('makes hello-world app by executing `a127 project create hello-world`', function(done) {
+      this.timeout(20 * TIMEOUT);
 
-        var create = exec('a127 project create hello-world', {cwd: cwd}, function (error, stdout, stderr) {
-            expect(error).to.be.falsy;
-            expect(stderr).to.be.falsy;
-            expect(stdout).to.contain('Project hello-world created');
-        });
+      var create = exec('a127 project create hello-world', {cwd: cwd}, function(error, stdout, stderr) {
+        expect(error).to.be.falsy;
+        expect(stderr).to.be.falsy;
+        expect(stdout).to.contain('Project hello-world created');
+      });
 
-        create.on('close', function (code, signal) {
-          expect(code).to.equal(0);
-          expect(signal).to.be.null;
-          done();
-        });
+      create.on('close', function(code, signal) {
+        expect(code).to.equal(0);
+        expect(signal).to.be.null;
+        done();
+      });
     });
 
-    it('cd into hello-world directory', function(){
+    it('cd into hello-world directory', function() {
       cwd = path.join(cwd, 'hello-world');
 
       expect(fs.existsSync(cwd)).to.be.true;
@@ -158,8 +157,8 @@ xdescribe('project', function() {
   describe('start', function() {
     startServer();
 
-    it('responds to a simple API request', function (done) {
-      request('http://localhost:10010/hello?name=Scott', function (error, response, body) {
+    it('responds to a simple API request', function(done) {
+      request('http://localhost:10010/hello?name=Scott', function(error, response, body) {
 
           expect(error).to.be.falsy;
           expect(body).to.contain('Hello, Scott');
@@ -167,26 +166,25 @@ xdescribe('project', function() {
         });
     });
 
-   killServer();
-
+    killServer();
   });
 
-  describe('edit', function () {
+  describe('edit', function() {
     startServer();
     startEdit();
 
-    it('updates the /hello path to /my-path in YAML file', function (done) {
+    it('updates the /hello path to /my-path in YAML file', function(done) {
       updateYAML('1', done);
     });
 
-    it('updates controller to rename hello controller function to myPath', function (done) {
+    it('updates controller to rename hello controller function to myPath', function(done) {
       updateController('1', done);
     });
 
     restartServer();
 
-    it('makes call to /my-path to make sure /my-path responds', function (done) {
-      request('http://localhost:10010/my-path?name=Scott', function (error, response, body) {
+    it('makes call to /my-path to make sure /my-path responds', function(done) {
+      request('http://localhost:10010/my-path?name=Scott', function(error, response, body) {
 
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Scott');
@@ -194,18 +192,18 @@ xdescribe('project', function() {
       });
     });
 
-    it('adds "last" parameter to YAML file', function (done) {
+    it('adds "last" parameter to YAML file', function(done) {
       updateYAML('2', done);
     });
 
-    it('update the controller to include "last" in response', function (done) {
+    it('update the controller to include "last" in response', function(done) {
       updateController('2', done);
     });
 
     restartServer();
 
-    it('makes call to /my-path?name=Mohsen&last=Azimi to make sure "last" parameter is working ', function (done) {
-      request('http://localhost:10010/my-path?name=Mohsen&last=Azimi', function (error, response, body) {
+    it('makes call to /my-path?name=Mohsen&last=Azimi to make sure "last" parameter is working ', function(done) {
+      request('http://localhost:10010/my-path?name=Mohsen&last=Azimi', function(error, response, body) {
 
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Mohsen Azimi');
