@@ -1,7 +1,9 @@
 var exec = require('child_process').exec;
 var expect = require('chai').expect;
+var describeMethod = process.env.SKIP_INSTALL ? xdescribe : describe;
 
-describe('installation', function() {
+
+describeMethod('installation', function() {
   this.timeout(50000);
 
   it('should install a127 executable globally', function(done) {
