@@ -9,7 +9,7 @@ var running = require('is-running')
 
 var TIMEOUT = process.env.TIMEOUT || 3000;
 
-describe('project', function() {
+xdescribe('project', function() {
   var rand = Math.random().toString(36).substr(2);
   var cwd = path.join(__dirname, 'tmp', rand);
   var editServerUrl = null;
