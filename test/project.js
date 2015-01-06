@@ -85,8 +85,10 @@ describe('project', function() {
     });
   }
 
-  function putYaml(yamlFileName, done) {
-    var filePath = path.join(__dirname, '..', 'yaml/' + yamlFileName + '.yaml');
+  function updateYAML(yamlFileName, done) {
+    var filePath = path.join(__dirname, '..', 'yaml', yamlFileName + '.yaml');
+    var swaggerYamlPath = path.join(__dirname, 'tmp', rand, 'hello-world', 'api',
+      'swagger', 'swagger.yaml');
     var yamlFile = fs.readFileSync(filePath).toString();
 
     request({
@@ -95,6 +97,24 @@ describe('project', function() {
       body: yamlFile
     }, function (error, response, body) {
       expect(error).to.be.falsy;
+
+      // read the file from fs and make sure it's the yamlFile then done
+      fs.readFile(swaggerYamlPath, function (err, file) {
+        expect(err).to.be.falsy;
+        expect(file.toString()).to.equal(yamlFile);
+        done();
+      });
+    });
+  }
+
+  function updateController(controllerFileName, done) {
+    var projectControllerPath = path.join(__dirname, 'tmp', rand, 'hello-world',
+      'api', 'controllers', 'hello_world.js');
+    var controllerPath  = path.join(__dirname, '..', 'controller', controllerFileName + '.js');
+    var controller = fs.readFileSync(controllerPath);
+
+    fs.writeFile(projectControllerPath, controller, function (err) {
+      expect(err).to.be.falsy;
       done();
     });
   }
@@ -153,17 +173,40 @@ describe('project', function() {
     startServer();
     startEdit();
 
-    it('updates the /hello path to /my-path', function (done) {
-      putYaml('1_updated_path', done);
+    it('updates the /hello path to /my-path in YAML file', function (done) {
+      updateYAML('1', done);
+    });
+
+    it('updates controller to rename hello controller function to myPath', function (done) {
+      updateController('1', done);
     });
 
     restartServer();
 
-    it('makes call to /my-path', function (done) {
+    it('makes call to /my-path to make sure /my-path responds', function (done) {
       request('http://127.0.0.1:10010/my-path?name=Scott', function (error, response, body) {
 
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Scott');
+        done();
+      });
+    });
+
+    it('adds "last" parameter to YAML file', function (done) {
+      updateYAML('2', done);
+    });
+
+    it('update the controller to include "last" in response', function (done) {
+      updateController('2', done);
+    });
+
+    restartServer();
+
+    it('makes call to /my-path?name=Mohsen&last=Azimi to make sure "last" parameter is working ', function (done) {
+      request('http://127.0.0.1:10010/my-path?name=Mohsen&last=Azimi', function (error, response, body) {
+
+        expect(error).to.be.falsy;
+        expect(body).to.contain('Hello, Mohsen Azimi');
         done();
       });
     });
