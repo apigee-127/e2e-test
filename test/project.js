@@ -157,7 +157,7 @@ describe('project', function() {
     startServer();
 
     it('responds to a simple API request', function (done) {
-      request('http://127.0.0.1:10010/hello?name=Scott', function (error, response, body) {
+      request('http://localhost:10010/hello?name=Scott', function (error, response, body) {
 
           expect(error).to.be.falsy;
           expect(body).to.contain('Hello, Scott');
@@ -184,7 +184,7 @@ describe('project', function() {
     restartServer();
 
     it('makes call to /my-path to make sure /my-path responds', function (done) {
-      request('http://127.0.0.1:10010/my-path?name=Scott', function (error, response, body) {
+      request('http://localhost:10010/my-path?name=Scott', function (error, response, body) {
 
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Scott');
@@ -203,7 +203,7 @@ describe('project', function() {
     restartServer();
 
     it('makes call to /my-path?name=Mohsen&last=Azimi to make sure "last" parameter is working ', function (done) {
-      request('http://127.0.0.1:10010/my-path?name=Mohsen&last=Azimi', function (error, response, body) {
+      request('http://localhost:10010/my-path?name=Mohsen&last=Azimi', function (error, response, body) {
 
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Mohsen Azimi');
