@@ -18,6 +18,10 @@
   "strict": true,
   "trailing": true,
   "smarttabs": true,
+  "mocha": true,
+  "expr": true,
   "globals": {
+    "xdescribe": true,
+    "xit": true
   }
 }
