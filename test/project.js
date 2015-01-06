@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
@@ -5,7 +7,7 @@ var spawn = require('child_process').spawn;
 var expect = require('chai').expect;
 var mkdirp = require('mkdirp');
 var request = require('request');
-var running = require('is-running')
+var running = require('is-running');
 
 var TIMEOUT = process.env.TIMEOUT || 3000;
 
@@ -59,7 +61,7 @@ xdescribe('project', function() {
       serverProccess.stdin.write('re');
       setTimeout(done, TIMEOUT);
     });
-  };
+  }
 
   function killServer() {
     it('kills the server process', function (done) {
@@ -95,7 +97,7 @@ xdescribe('project', function() {
       method: 'PUT',
       url: editServerUrl,
       body: yamlFile
-    }, function (error, response, body) {
+    }, function (error) {
       expect(error).to.be.falsy;
 
       // read the file from fs and make sure it's the yamlFile then done
