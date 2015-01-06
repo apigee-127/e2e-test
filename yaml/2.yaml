@@ -39,7 +39,6 @@ paths:
           description: The name of the person to whom to say hello
           required: false
           type: string
-      parameters:
         - name: last
           in: query
           description: The last name of the person to whom to say hello
