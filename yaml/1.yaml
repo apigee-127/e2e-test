@@ -1,3 +1,8 @@
+#
+# updates /hello path to /my-path
+#
+#
+
 swagger: "2.0"
 info:
   version: "0.0.1"
@@ -27,7 +32,7 @@ paths:
     get:
       description: Returns 'Hello' to the caller
       # used as the method name of the controller
-      operationId: hello
+      operationId: my-path
       parameters:
         - name: name
           in: query
