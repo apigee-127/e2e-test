@@ -69,6 +69,7 @@ describe('project', function() {
           process.kill(-serverProccess.pid, 'SIGTERM');
         }
         expect(serverProccess.connected).to.be.false;
+        serverProccess = null;
         done();
       });
     });
@@ -81,6 +82,7 @@ describe('project', function() {
           process.kill(-editProccess.pid, 'SIGTERM');
         }
         expect(editProccess.connected).to.be.false;
+        editProccess = null;
         done();
       });
     });
