@@ -3,12 +3,13 @@
 var exec = require('child_process').exec;
 var expect = require('chai').expect;
 var describeMethod = process.env.SKIP_INSTALL ? xdescribe : describe;
+var version = process.env.VERSION ? '@' + process.env.VERSION : '';
 
 describeMethod('installation', function() {
   this.timeout(50000);
 
-  it('should install a127 executable globally', function(done) {
-    exec('npm install -g apigee-127', function(error) {
+  it('should install a127 executable globally with npm install -g apigee-127' + version + ' command', function(done) {
+    exec('npm install -g apigee-127' + version, function(error) {
       expect(error).to.be.falsy;
       done();
     });
