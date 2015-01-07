@@ -17,3 +17,4 @@ Following options are available to set as environment variables:
 
 * `TIMEOUT`: Time in milliseconds for each test operation timeout
 * `SKIP_INSTALL`: If present, installation test will be skipped
+* `VERSION`: specific version of `apigee-127` npm module to install. Defaults to latest release version.
