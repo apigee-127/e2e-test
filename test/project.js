@@ -25,7 +25,7 @@ describe('project', function() {
 
   function startEdit() {
     it('starts the edit server with `a127 project edit` command', function(done) {
-      editProccess = spawn('a127', ['project', 'edit', '--silent'], {cwd: cwd, detached: true});
+      editProccess = spawn('a127', ['project', 'edit', '-s'], {cwd: cwd, detached: true});
 
       var output = '';
       var doneCalled = false;
