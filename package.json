@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "a127 end to end test suite",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:apigee-127/e2e-test.git"
+  },
   "scripts": {
     "test": "node test-runner.js"
   },
@@ -10,6 +14,7 @@
     "a127"
   ],
   "author": "Mohsen Azimi <mohsen@mohsenweb.com>",
+  "homepage": "https://github.com/apigee-127/e2e-test",
   "license": "MIT",
   "devDependencies": {
     "chai": "^1.10.0",
