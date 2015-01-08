@@ -4,10 +4,12 @@ var fs = require('fs');
 var path = require('path');
 var exec = require('child_process').exec;
 var spawn = require('child_process').spawn;
-var expect = require('chai').expect;
+var chai = require('chai');
 var mkdirp = require('mkdirp');
 var request = require('request');
 var running = require('is-running');
+var expect = chai.expect;
+chai.use(require('chai-json-schema'));
 
 var TIMEOUT = process.env.TIMEOUT || 3000;
 
@@ -23,21 +25,18 @@ describe('project', function() {
 
   function startEdit() {
     it('starts the edit server with `a127 project edit` command', function(done) {
-      editProccess = spawn('a127', ['project', 'edit'], {cwd: cwd, detached: true});
+      editProccess = spawn('a127', ['project', 'edit', '--silent'], {cwd: cwd, detached: true});
 
       var output = '';
-      editProccess.stdout.on('data', function(data) { output += data; });
-
-      setTimeout(function() {
-        expect(output).to.contain('Starting Swagger editor.');
-        output.split('\n').forEach(function(line) {
-          if (line.indexOf('Opening browser to:') > -1) {
-            editServerUrl = line.substr(line.indexOf('to: ') + 4);
-            editServerUrl = editServerUrl.substr(0, editServerUrl.indexOf('#')) + 'editor/spec';
-          }
-        });
-        done();
-      }, TIMEOUT);
+      editProccess.stdout.on('data', function(data) {
+        output += data;
+        var lines = output.split('\n');
+        if (lines.length > 2) {
+          expect(output).to.contain('Running edit API server');
+          editServerUrl = lines[1].substr(lines[1].indexOf('calls to ') + 9);
+          done();
+        }
+      });
     });
   }
 
@@ -209,6 +208,34 @@ describe('project', function() {
 
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Mohsen Azimi');
+        done();
+      });
+    });
+
+    it('Adds `/person/{personId}` path and get operation for it to YAML', function(done) {
+      updateYAML('3', done);
+    });
+
+    it('updates the controller to include `getPerson` operation function', function(done) {
+      updateController('3', done);
+    });
+
+    restartServer();
+
+    it('should respond with a Person object when GET request made to `/person/1`', function(done) {
+      var PersonSchema = {
+        type: 'object',
+        properties: {
+          'name': {type: 'string'},
+          'id': {type: 'integer'}
+        }
+      };
+
+      request('http://localhost:10010/person/1', function(error, response, body) {
+
+        expect(error).to.be.falsy;
+
+        expect(JSON.parse(body)).to.be.jsonSchema(PersonSchema);
         done();
       });
     });
