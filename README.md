@@ -18,3 +18,6 @@ Following options are available to set as environment variables:
 * `TIMEOUT`: Time in milliseconds for each test operation timeout
 * `SKIP_INSTALL`: If present, installation test will be skipped
 * `VERSION`: specific version of `apigee-127` npm module to install. Defaults to latest release version.
+* `PASSWORD`: Password of Apigee account to test against
+* `USER_NAME`: Apigee Organization name
+* `USER_EMAIL`: Apigee login email
