@@ -35,7 +35,7 @@ function Person(name, id) {
 }
 
 function getPerson(req, res) {
-  var id = req.swagger.params.id.value;
+  var id = +req.swagger.params.personId.value;
   var person = new Person('Peter Griffin', id);
 
   res.json(person);
