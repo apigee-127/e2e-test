@@ -35,6 +35,7 @@ function Person(name, id) {
 }
 
 function getPerson(req, res) {
+  // TODO remove + when Swagger Tools parses personId value correct
   var id = +req.swagger.params.personId.value;
   var person = new Person('Peter Griffin', id);
 
