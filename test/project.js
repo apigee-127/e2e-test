@@ -28,13 +28,17 @@ describe('project', function() {
       editProccess = spawn('a127', ['project', 'edit', '--silent'], {cwd: cwd, detached: true});
 
       var output = '';
+      var doneCalled = false;
       editProccess.stdout.on('data', function(data) {
         output += data;
         var lines = output.split('\n');
         if (lines.length > 2) {
           expect(output).to.contain('Running edit API server');
           editServerUrl = lines[1].substr(lines[1].indexOf('calls to ') + 9);
-          done();
+          if (!doneCalled) {
+            doneCalled = true;
+            done();
+          }
         }
       });
     });
@@ -234,7 +238,6 @@ describe('project', function() {
       request('http://localhost:10010/person/1', function(error, response, body) {
 
         expect(error).to.be.falsy;
-
         expect(JSON.parse(body)).to.be.jsonSchema(PersonSchema);
         done();
       });
