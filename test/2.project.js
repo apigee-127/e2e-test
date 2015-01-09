@@ -60,7 +60,7 @@ describe('project', function() {
 
   function restartServer() {
     it('restarts the server', function(done) {
-      serverProccess.stdin.write('re');
+      serverProccess.stdin.write('rs');
       setTimeout(done, TIMEOUT);
     });
   }
