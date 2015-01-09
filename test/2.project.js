@@ -11,11 +11,15 @@ var running = require('is-running');
 var expect = chai.expect;
 chai.use(require('chai-json-schema'));
 
+var rand = Math.random().toString(36).substr(2);
+var cwd = path.join(__dirname, 'tmp', rand);
 var TIMEOUT = process.env.TIMEOUT || 3000;
 
+module.exports.getCWD = function() {
+  return cwd;
+};
+
 describe('project', function() {
-  var rand = Math.random().toString(36).substr(2);
-  var cwd = path.join(__dirname, 'tmp', rand);
   var editServerUrl = null;
   var serverProccess;
   var editProccess;
