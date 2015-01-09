@@ -64,7 +64,7 @@ describe('project', function() {
 
   function restartServer() {
     it('restarts the server', function(done) {
-      serverProccess.stdin.write('rs');
+      serverProccess.stdin.write('rs\n');
       setTimeout(done, TIMEOUT);
     });
   }
