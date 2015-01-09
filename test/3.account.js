@@ -17,7 +17,7 @@ describe('account', function() {
 
     it('Makes an account with `a127 account create` command', function(done) {
 
-      this.timeout(0 * TIMEOUT); // Large timeout for network calls
+      this.timeout(5 * TIMEOUT); // Large timeout for network calls
 
       exec('a127 account create ' + [USER_EMAIL,
         '-p', 'apigee',
