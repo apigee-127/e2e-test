@@ -17,7 +17,7 @@ describe('account', function() {
 
     it('Makes an account with `a127 account create` command', function(done) {
 
-      this.timeout(30 * TIMEOUT); // Large timeout for network calls
+      this.timeout(0 * TIMEOUT); // Large timeout for network calls
 
       exec('a127 account create ' + [USER_EMAIL,
         '-p', 'apigee',
@@ -46,8 +46,13 @@ describe('account', function() {
       });
     });
   });
+});
 
-  describe('delete', function() {
+/*
+ * Export delete account to be used after using the account.
+*/
+module.exports.delete = function() {
+  describe('delete account', function() {
     it('should delete the created account with `a127 account delete` command', function(done) {
       exec('a127 account delete ' + USER_EMAIL, function(error, stdout, stderr) {
         expect(error).to.be.falsy;
@@ -57,4 +62,4 @@ describe('account', function() {
       });
     });
   });
-});
+};
