@@ -4,7 +4,6 @@ var exec = require('child_process').exec;
 var chai = require('chai');
 var request = require('request');
 var expect = chai.expect;
-var deleteAccount = require('./3.account').delete;
 var cwd = require('./2.project').getCWD();
 
 describe('deployment', function() {
@@ -32,6 +31,4 @@ describe('deployment', function() {
       done();
     });
   });
-
-  deleteAccount();
 });
