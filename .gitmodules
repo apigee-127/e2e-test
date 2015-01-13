@@ -1,3 +1,3 @@
 [submodule "apigee-api-workshop"]
 	path = apigee-api-workshop
-	url = git@github.com:garazi/apigee-api-workshop.git
+	url = https://github.com/garazi/apigee-api-workshop.git 
