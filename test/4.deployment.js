@@ -7,33 +7,42 @@ var expect = chai.expect;
 var cwd = require('./2.project').getCWD();
 
 describe('deployment', function() {
-  it('deploys the API to Apigee by executing `a127 project deploy`', function(done) {
-    exec('127 project deploy', {cwd: cwd}, function(error, stdout, stderr) {
-      expect(error).to.be.falsy;
-      expect(stderr).to.be.falsy;
-      done();
-    });
-  });
 
-  it('waits 2 seconds', function(done) {
-    this.timeout(3 * 1000);
-    setTimeout(done, 2 * 1000);
-  });
+  testDeployment(false);
+  testDeployment(true);
 
-  it('makes a call to deployed API to make sure deployed API is working', function(done) {
-    var url = 'http://mazimi_a127-test.apigee.net/hello-world/my-path?name=Bart&last=Simpson';
-    request(url, function(error, resp, body) {
-      expect(error).to.be.falsy;
-      expect(body).to.contain('Hello, Bart Simpson');
-      done();
-    });
-  });
+  function testDeployment(uploadFlag) {
+    var command = '127 project deploy' + (uploadFlag ? ' --upload' : '');
 
-  it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
-    exec('127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
-      expect(error).to.be.falsy;
-      expect(stderr).to.be.falsy;
-      done();
+    it('deploys the API to Apigee by executing `' + command + '`', function(done) {
+      exec(command, {cwd: cwd}, function(error, stdout, stderr) {
+        expect(error).to.be.falsy;
+        expect(stderr).to.be.falsy;
+        expect(stdout).to.not.include('Error');
+        done();
+      });
     });
-  });
+
+    it('waits 2 seconds', function(done) {
+      this.timeout(3 * 1000);
+      setTimeout(done, 2 * 1000);
+    });
+
+    it('makes a call to deployed API to make sure deployed API is working', function(done) {
+      var url = 'http://mazimi_a127-test.apigee.net/hello-world/my-path?name=Bart&last=Simpson';
+      request(url, function(error, resp, body) {
+        expect(error).to.be.falsy;
+        expect(body).to.contain('Hello, Bart Simpson');
+        done();
+      });
+    });
+
+    it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
+      exec('127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
+        expect(error).to.be.falsy;
+        expect(stderr).to.be.falsy;
+        done();
+      });
+    });
+  }
 });
