@@ -24,7 +24,7 @@ var configDefaults = {
   USER_EMAIL: process.env.USER_EMAIL,
 
   // Apigee Edge environment
-  ENVIRONMENT: process.env.ENVIRONMENT,git
+  ENVIRONMENT: process.env.ENVIRONMENT,
 };
 
 var configFile = {};
