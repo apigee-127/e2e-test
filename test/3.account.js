@@ -3,27 +3,25 @@
 var exec = require('child_process').exec;
 var chai = require('chai');
 var expect = chai.expect;
+var config = require('../config');
 
-var TIMEOUT = process.env.TIMEOUT || 3000;
-var USER_EMAIL = process.env.USER_EMAIL || 'mazimi+a127-e2e@apigee.com';
-var USER_NAME = process.env.USER_NAME || 'mazimi_a127';
 var PASSWORD = process.env.PASSWORD;
 
 describe('account', function() {
 
-  this.timeout(2 * TIMEOUT);
+  this.timeout(2 * config.TIMEOUT);
 
   describe('create', function() {
 
     it('Makes an account with `a127 account create` command', function(done) {
 
-      this.timeout(5 * TIMEOUT); // Large timeout for network calls
+      this.timeout(5 * config.TIMEOUT); // Large timeout for network calls
 
-      exec('a127 account create ' + [USER_EMAIL,
+      exec('a127 account create ' + [config.USER_EMAIL,
         '-p', 'apigee',
         '-b', 'https://api.enterprise.apigee.com',
-        '-o', USER_NAME,
-        '-u', USER_EMAIL,
+        '-o', config.USER_ORG,
+        '-u', config.USER_EMAIL,
         '-w', PASSWORD,
         '-e', 'test',
         '-v', 'default'
@@ -41,7 +39,7 @@ describe('account', function() {
       exec('a127 account ls', function(error, stdout, stderr) {
         expect(error).to.be.falsy;
         expect(stderr).to.be.falsy;
-        expect(stdout).to.contain(USER_EMAIL);
+        expect(stdout).to.contain(config.USER_EMAIL);
         done();
       });
     });
@@ -54,7 +52,7 @@ describe('account', function() {
 module.exports.delete = function() {
   describe('delete account', function() {
     it('should delete the created account with `a127 account delete` command', function(done) {
-      exec('a127 account delete ' + USER_EMAIL, function(error, stdout, stderr) {
+      exec('a127 account delete ' + config.USER_EMAIL, function(error, stdout, stderr) {
         expect(error).to.be.falsy;
         expect(stderr).to.be.falsy;
         expect(stdout).to.contain('done');

@@ -5,6 +5,7 @@ var chai = require('chai');
 var request = require('request');
 var expect = chai.expect;
 var cwd = require('./2.project').getCWD();
+var config = require('../config');
 
 describe('deployment', function() {
 
@@ -29,7 +30,8 @@ describe('deployment', function() {
     });
 
     it('makes a call to deployed API to make sure deployed API is working', function(done) {
-      var url = 'http://mazimi_a127-test.apigee.net/hello-world/my-path?name=Bart&last=Simpson';
+      var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
+        'apigee.net/hello-world/my-path?name=Bart&last=Simpson';
       request(url, function(error, resp, body) {
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Bart Simpson');
