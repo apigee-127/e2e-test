@@ -1,6 +1,6 @@
 'use strict';
 
-var TIMEOUT = process.env.TIMEOUT ? TIMEOUT * 2 : 6000;
+var TIMEOUT = require('../config').TIMEOUT;
 
 describe('lint', function() {
   this.timeout(TIMEOUT);

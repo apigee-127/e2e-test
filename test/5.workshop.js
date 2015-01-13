@@ -10,6 +10,7 @@ var expect = chai.expect;
 var TIMEOUT = process.env.TIMEOUT || 3000;
 var deleteAccount = require('./3.account').delete;
 var cwd = path.join(__dirname, '..', 'apigee-api-workshop');
+var config = require('../config');
 
 describe('workshop', function() {
   var serverProccess = null;
@@ -52,7 +53,8 @@ describe('workshop', function() {
   });
 
   it('makes a call to deployed API to make sure deployed API is working', function(done) {
-    var url = 'http://mazimi_a127-test.apigee.net/apigee-api-workshop/my-path?name=Bart&last=Simpson';
+    var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
+      '.apigee.net/apigee-api-workshop/my-path?name=Bart&last=Simpson';
     request(url, function(error, resp, body) {
       expect(error).to.be.falsy;
       expect(body).to.contain('Hello, Bart Simpson');

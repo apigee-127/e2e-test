@@ -19,5 +19,16 @@ Following options are available to set as environment variables:
 * `SKIP_INSTALL`: If present, installation test will be skipped
 * `VERSION`: specific version of `apigee-127` npm module to install. Defaults to latest release version.
 * `PASSWORD`: Password of Apigee account to test against
-* `USER_NAME`: Apigee Organization name
 * `USER_EMAIL`: Apigee login email
+* `USER_ORG`: Apigee Organization
+* `ENVIRONMENT`: Apigee Edge environment
+
+
+#### `CONFIG` environment variable
+If `CONFIG` environment variable is set to a JSON file, all options will be read from file that.
+
+For example:
+
+```bash
+CONFIG=./my-config.json npm test
+```

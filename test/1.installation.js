@@ -2,8 +2,9 @@
 
 var exec = require('child_process').exec;
 var expect = require('chai').expect;
-var describeMethod = process.env.SKIP_INSTALL ? xdescribe : describe;
-var version = process.env.VERSION ? '@' + process.env.VERSION : '';
+var config = require('../config');
+var describeMethod = config.SKIP_INSTALL ? xdescribe : describe;
+var version = config.VERSION ? '@' + config.VERSION : '';
 
 describeMethod('installation', function() {
   this.timeout(50000);
