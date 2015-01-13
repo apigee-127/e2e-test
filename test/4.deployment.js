@@ -15,6 +15,11 @@ describe('deployment', function() {
     });
   });
 
+  it('waits 2 seconds', function(done) {
+    this.timeout(3 * 1000);
+    setTimeout(done, 2 * 1000);
+  });
+
   it('makes a call to deployed API to make sure deployed API is working', function(done) {
     var url = 'http://mazimi_a127-test.apigee.net/hello-world/my-path?name=Bart&last=Simpson';
     request(url, function(error, resp, body) {
