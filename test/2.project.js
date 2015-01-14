@@ -161,6 +161,20 @@ describe('project', function() {
       expect(fs.existsSync(cwd)).to.be.true;
       expect(fs.lstatSync(cwd).isDirectory()).to.be.true;
     });
+
+    it('removes node_modules, installs a127-magic@0.7.1 then reinstalls node_modules', function(done) {
+      this.timeout(30 * 1000);
+      exec('rm -rf node_modules', {cwd: cwd}, function(error) {
+        expect(error).to.be.falsy;
+        exec('npm i --save a127-magic@0.7.1', {cwd: cwd}, function(error) {
+          expect(error).to.be.falsy;
+          exec('npm i', {cwd: cwd}, function(error) {
+            expect(error).to.be.falsy;
+            done();
+          });
+        });
+      });
+    });
   });
 
   describe('start', function() {

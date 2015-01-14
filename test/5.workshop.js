@@ -15,7 +15,7 @@ var config = require('../config');
 describe('workshop', function() {
   var serverProccess = null;
 
-  this.timeout(2 * TIMEOUT);
+  this.timeout(4 * TIMEOUT);
 
   it('start the project server', function(done) {
     serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd, detached: true});
@@ -47,9 +47,8 @@ describe('workshop', function() {
     });
   });
 
-  it('waits 2 seconds', function(done) {
-    this.timeout(3 * 1000);
-    setTimeout(done, 2 * 1000);
+  it('waits ' + config.TIMEOUT / 1000 + ' seconds', function(done) {
+    setTimeout(done, config.TIMEOUT);
   });
 
   it('makes a call to deployed API to make sure deployed API is working', function(done) {

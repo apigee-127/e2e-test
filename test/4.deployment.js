@@ -9,6 +9,8 @@ var config = require('../config');
 
 describe('deployment', function() {
 
+  this.timeout(config.TIMEOUT * 4);
+
   testDeployment(false);
   testDeployment(true);
 
@@ -24,9 +26,8 @@ describe('deployment', function() {
       });
     });
 
-    it('waits 2 seconds', function(done) {
-      this.timeout(3 * 1000);
-      setTimeout(done, 2 * 1000);
+    it('waits ' + config.TIMEOUT / 1000 + ' seconds', function(done) {
+      setTimeout(done, config.TIMEOUT);
     });
 
     it('makes a call to deployed API to make sure deployed API is working', function(done) {
