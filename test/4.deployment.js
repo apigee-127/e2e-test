@@ -40,7 +40,7 @@ describe('deployment', function() {
     });
 
     it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
-      exec('127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
+      exec('a127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
         expect(error).to.be.falsy;
         expect(stderr).to.be.falsy;
         done();
