@@ -1,4 +1,0 @@
-machine:
-  environment:
-    TIMEOUT: 3000
-    CONFIG: ./mazimi.config.json
