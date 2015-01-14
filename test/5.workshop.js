@@ -40,7 +40,7 @@ describe('workshop', function() {
   xit('makes an HTTP GET request to /restaurants path');
 
   it('deploys the API to Apigee by executing `a127 project deploy`', function(done) {
-    exec('127 project deploy', {cwd: cwd}, function(error, stdout, stderr) {
+    exec('a127 project deploy', {cwd: cwd}, function(error, stdout, stderr) {
       expect(error).to.be.falsy;
       expect(stderr).to.be.falsy;
       done();
@@ -63,7 +63,7 @@ describe('workshop', function() {
   });
 
   it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
-    exec('127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
+    exec('a127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
       expect(error).to.be.falsy;
       expect(stderr).to.be.falsy;
       done();

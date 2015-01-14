@@ -13,7 +13,7 @@ describe('deployment', function() {
   testDeployment(true);
 
   function testDeployment(uploadFlag) {
-    var command = '127 project deploy' + (uploadFlag ? ' --upload' : '');
+    var command = 'a127 project deploy' + (uploadFlag ? ' --upload' : '');
 
     it('deploys the API to Apigee by executing `' + command + '`', function(done) {
       exec(command, {cwd: cwd}, function(error, stdout, stderr) {
