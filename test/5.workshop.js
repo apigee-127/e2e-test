@@ -88,6 +88,7 @@ describe('cleanup', function() {
   deleteAccount();
 
   it('kills the server process', function(done) {
+    if (!serverProccess) { return done(); }
     running(serverProccess.pid, function(err, live) {
       if (live) {
         process.kill(-serverProccess.pid, 'SIGTERM');
