@@ -12,73 +12,88 @@ var deleteAccount = require('./3.account').delete;
 var cwd = path.join(__dirname, '..', 'apigee-api-workshop');
 var config = require('../config');
 
-describe('workshop', function() {
+xdescribe('workshop', function() {
   var serverProccess = null;
 
   this.timeout(4 * TIMEOUT);
 
-  it('start the project server', function(done) {
-    serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd, detached: true});
+  describe('test locally', function() {
 
-    var output = '';
-    serverProccess.stdout.on('data', function(data) { output += data; });
+    it('start the project server', function(done) {
+      serverProccess = spawn('a127', ['project', 'start'], {cwd: cwd, detached: true});
 
-    setTimeout(function() {
-      expect(output).to.contain('project started');
-      done();
-    }, TIMEOUT);
-  });
+      var output = '';
+      serverProccess.stdout.on('data', function(data) { output += data; });
 
-  it('makes an HTTP GET request to /hello path', function(done) {
-    request('http://localhost:8888/hello?name=Peter', function(error, response, body) {
-      expect(error).to.be.falsy;
-      expect(body).to.contain('Hello, Peter');
-      done();
+      setTimeout(function() {
+        expect(output).to.contain('project started');
+        done();
+      }, TIMEOUT);
+    });
+
+    it('makes an HTTP GET request to /hello path', function(done) {
+      request('http://localhost:8888/hello?name=Peter', function(error, response, body) {
+        expect(error).to.be.falsy;
+        expect(body).to.contain('Hello, Peter');
+        done();
+      });
     });
   });
 
-  xit('makes an HTTP GET request to /restaurants path');
+  describe('deployment', function() {
 
-  it('deploys the API to Apigee by executing `a127 project deploy`', function(done) {
-    exec('a127 project deploy', {cwd: cwd}, function(error, stdout, stderr) {
-      expect(error).to.be.falsy;
-      expect(stderr).to.be.falsy;
-      done();
+    it('deploys the API to Apigee by executing `a127 project deploy`', function(done) {
+      exec('a127 project deploy', {cwd: cwd}, function(error, stdout, stderr) {
+        expect(error).to.be.falsy;
+        expect(stderr).to.be.falsy;
+        done();
+      });
+    });
+
+    it('waits ' + config.TIMEOUT / 1000 + ' seconds', function(done) {
+      setTimeout(done, config.TIMEOUT);
+    });
+
+    it('makes a call to deployed API to make sure deployed API is working', function(done) {
+      var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
+        '.apigee.net/apigee-api-workshop/my-path?name=Bart&last=Simpson';
+      request(url, function(error, resp, body) {
+        expect(error).to.be.falsy;
+        expect(body).to.contain('Hello, Bart Simpson');
+        done();
+      });
     });
   });
 
-  it('waits ' + config.TIMEOUT / 1000 + ' seconds', function(done) {
-    setTimeout(done, config.TIMEOUT);
-  });
-
-  it('makes a call to deployed API to make sure deployed API is working', function(done) {
-    var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
-      '.apigee.net/apigee-api-workshop/my-path?name=Bart&last=Simpson';
-    request(url, function(error, resp, body) {
-      expect(error).to.be.falsy;
-      expect(body).to.contain('Hello, Bart Simpson');
-      done();
+  describe('oauth', function() {
+    it('gets OAuth API key', function() {
+      expect('true').to.be.a.string;
     });
   });
 
-  it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
-    exec('a127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
-      expect(error).to.be.falsy;
-      expect(stderr).to.be.falsy;
-      done();
+  describe('cleanup', function() {
+
+    it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
+      exec('a127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
+        expect(error).to.be.falsy;
+        expect(stderr).to.be.falsy;
+        done();
+      });
     });
-  });
 
-  deleteAccount();
+    deleteAccount();
 
-  it('kills the server process', function(done) {
-    running(serverProccess.pid, function(err, live) {
-      if (live) {
-        process.kill(-serverProccess.pid, 'SIGTERM');
-      }
-      expect(serverProccess.connected).to.be.false;
-      serverProccess = null;
-      done();
+    it('kills the server process', function(done) {
+      running(serverProccess.pid, function(err, live) {
+        if (live) {
+          process.kill(-serverProccess.pid, 'SIGTERM');
+        }
+        expect(serverProccess.connected).to.be.false;
+        serverProccess = null;
+        done();
+      });
     });
   });
 });
+
+deleteAccount();

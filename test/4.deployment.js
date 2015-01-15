@@ -11,13 +11,17 @@ describe('deployment', function() {
 
   this.timeout(config.TIMEOUT * 4);
 
-  testDeployment(false);
+  // testDeployment(false);
   testDeployment(true);
 
   function testDeployment(uploadFlag) {
+    cwd = require('path').join(cwd, 'hello-world');
     var command = 'a127 project deploy' + (uploadFlag ? ' --upload' : '');
 
     it('deploys the API to Apigee by executing `' + command + '`', function(done) {
+
+      this.timeout(30 * config.TIMEOUT);
+
       exec(command, {cwd: cwd}, function(error, stdout, stderr) {
         expect(error).to.be.falsy;
         expect(stderr).to.be.falsy;
@@ -32,7 +36,10 @@ describe('deployment', function() {
 
     it('makes a call to deployed API to make sure deployed API is working', function(done) {
       var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
-        'apigee.net/hello-world/my-path?name=Bart&last=Simpson';
+        '.apigee.net/hello-world/my-path?name=Bart&last=Simpson';
+
+      console.log('calling ', url);
+
       request(url, function(error, resp, body) {
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Bart Simpson');
