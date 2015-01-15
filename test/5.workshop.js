@@ -11,9 +11,9 @@ var TIMEOUT = process.env.TIMEOUT || 3000;
 var deleteAccount = require('./3.account').delete;
 var cwd = path.join(__dirname, '..', 'apigee-api-workshop');
 var config = require('../config');
+var serverProccess = null;
 
 xdescribe('workshop', function() {
-  var serverProccess = null;
 
   this.timeout(4 * TIMEOUT);
 
@@ -71,7 +71,7 @@ xdescribe('workshop', function() {
     });
   });
 
-  describe('cleanup', function() {
+  describe('undeployment', function() {
 
     it('undeploys the API from Apigee by executing `a127 project undeploy`', function(done) {
       exec('a127 project undeploy', {cwd: cwd}, function(error, stdout, stderr) {
@@ -80,20 +80,21 @@ xdescribe('workshop', function() {
         done();
       });
     });
-
-    deleteAccount();
-
-    it('kills the server process', function(done) {
-      running(serverProccess.pid, function(err, live) {
-        if (live) {
-          process.kill(-serverProccess.pid, 'SIGTERM');
-        }
-        expect(serverProccess.connected).to.be.false;
-        serverProccess = null;
-        done();
-      });
-    });
   });
 });
 
-deleteAccount();
+describe('cleanup', function() {
+
+  deleteAccount();
+
+  it('kills the server process', function(done) {
+    running(serverProccess.pid, function(err, live) {
+      if (live) {
+        process.kill(-serverProccess.pid, 'SIGTERM');
+      }
+      expect(serverProccess.connected).to.be.false;
+      serverProccess = null;
+      done();
+    });
+  });
+});
