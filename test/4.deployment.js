@@ -38,8 +38,6 @@ describe('deployment', function() {
       var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
         '.apigee.net/hello-world/my-path?name=Bart&last=Simpson';
 
-      console.log('calling ', url);
-
       request(url, function(error, resp, body) {
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Bart Simpson');
