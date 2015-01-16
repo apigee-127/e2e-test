@@ -5,7 +5,8 @@ env:
   CONFIG: ./mazimi.config.json
 
 matrix:
-  - env:
-      VERSION: ''
-  - env:
-      VERSION: beta
+  include:
+    - env:
+        VERSION: ''
+    - env:
+        VERSION: beta
