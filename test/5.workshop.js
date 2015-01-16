@@ -8,7 +8,8 @@ var request = require('request');
 var running = require('is-running');
 var expect = chai.expect;
 var TIMEOUT = process.env.TIMEOUT || 3000;
-var deleteAccount = require('./3.account').delete;
+var deleteAccount = require('./3.account').deleteAccount;
+var deleteService = require('./3.account').deleteService;
 var cwd = path.join(__dirname, '..', 'apigee-api-workshop');
 var config = require('../config');
 var serverProccess = null;
@@ -85,6 +86,7 @@ xdescribe('workshop', function() {
 
 describe('cleanup', function() {
 
+  deleteService();
   deleteAccount();
 
   it('kills the server process', function(done) {
