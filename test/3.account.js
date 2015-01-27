@@ -33,7 +33,7 @@ module.exports.deleteService = function() {
 
       this.timeout(15 * config.TIMEOUT); // large timeout for over the net action
 
-      exec('a127 service delete TestRemoteProxy', function(error, stdout, stderr) {
+      exec('a127 service delete TestRemoteProxy --force', function(error, stdout, stderr) {
         expect(error).to.be.falsy;
         expect(stderr).to.be.falsy;
         expect(stdout).to.contain('done');
