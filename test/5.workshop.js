@@ -14,7 +14,7 @@ var cwd = path.join(__dirname, '..', 'apigee-api-workshop');
 var config = require('../config');
 var serverProccess = null;
 
-xdescribe('workshop', function() {
+describe('workshop', function() {
 
   this.timeout(4 * TIMEOUT);
 
@@ -33,7 +33,7 @@ xdescribe('workshop', function() {
     });
 
     it('makes an HTTP GET request to /hello path', function(done) {
-      request('http://localhost:8888/hello?name=Peter', function(error, response, body) {
+      request('http://localhost:10010/hello?name=Peter', function(error, response, body) {
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Peter');
         done();
@@ -57,7 +57,7 @@ xdescribe('workshop', function() {
 
     it('makes a call to deployed API to make sure deployed API is working', function(done) {
       var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
-        '.apigee.net/apigee-api-workshop/my-path?name=Bart&last=Simpson';
+        '.apigee.net/apigee-api-workshop-v2/my-path?name=Bart&last=Simpson';
       request(url, function(error, resp, body) {
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Bart Simpson');
