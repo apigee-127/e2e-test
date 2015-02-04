@@ -3,10 +3,10 @@ env:
   global:
     secure: uUmnhx6VKel9xtZQzXONGYhvUsQhNSuCYDrWwlSZdp3rO0R4fZeStsGCZvyFOAnmLYgsVvJHgjkMOhrpKUNX9UC3kC4vsRzeEDDPAM0VkO+/oh8Z90oxX3zMrM3V0Ad78E8MWCdy7wDl3BiqYeBaSiVfKpJJgecSuOQFXgSu/AM=
   CONFIG: ./mazimi.config.json
-
-matrix:
-  include:
-    - env:
-        VERSION: ''
-    - env:
-        VERSION: beta
+  VERSION: ''
+# matrix:
+#   include:
+#     - env:
+#         VERSION: ''
+#     - env:
+#         VERSION: beta
