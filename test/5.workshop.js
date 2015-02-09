@@ -43,10 +43,14 @@ describe('workshop', function() {
 
   describe('deployment', function() {
 
-    it('deploys the API to Apigee by executing `a127 project deploy`', function(done) {
+    it('deploys the API to Apigee by executing `a127 project deploy --upload`', function(done) {
+
+      this.timeout(10 * config.TIMEOUT);
+
       exec('a127 project deploy --upload', {cwd: cwd}, function(error, stdout, stderr) {
         expect(error).to.be.falsy;
         expect(stderr).to.be.falsy;
+        expect(stdout).to.not.include('Error');
         done();
       });
     });
