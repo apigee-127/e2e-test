@@ -43,7 +43,7 @@ describe('workshop', function() {
 
   describe('deployment', function() {
 
-    this.timeout(10 * config.TIMEOUT);
+    this.timeout(60 * config.TIMEOUT);
 
     it('deploys the API to Apigee by executing `a127 project deploy --upload`', function(done) {
 
