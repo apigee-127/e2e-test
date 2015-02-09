@@ -56,8 +56,8 @@ describe('workshop', function() {
       });
     });
 
-    it('waits ' + config.TIMEOUT / 1000 + ' seconds', function(done) {
-      setTimeout(done, config.TIMEOUT);
+    it('waits ' + (config.TIMEOUT * 3) / 1000 + ' seconds', function(done) {
+      setTimeout(done, (config.TIMEOUT * 3));
     });
 
     it('makes a call to deployed API to make sure deployed API is working', function(done) {
