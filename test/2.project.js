@@ -183,10 +183,10 @@ describe('project', function() {
     it('responds to a simple API request', function(done) {
       request('http://localhost:10010/hello?name=Scott', function(error, response, body) {
 
-          expect(error).to.be.falsy;
-          expect(body).to.contain('Hello, Scott');
-          done();
-        });
+        expect(error).to.be.falsy;
+        expect(body).to.contain('Hello, Scott');
+        done();
+      });
     });
 
     killServer();
