@@ -62,7 +62,7 @@ describe('workshop', function() {
 
     it('makes a call to deployed API to make sure deployed API is working', function(done) {
       var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
-        '.apigee.net/apigee-api-workshop-v2/my-path?name=Bart&last=Simpson';
+        '.apigee.net/apigee-api-workshop-v2/hello?name=Bart&last=Simpson';
       request(url, function(error, resp, body) {
         expect(error).to.be.falsy;
         expect(body).to.contain('Hello, Bart Simpson');
