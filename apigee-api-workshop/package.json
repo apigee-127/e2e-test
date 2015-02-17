@@ -1,0 +1,41 @@
+{
+  "name": "api-workshop-v2",
+  "version": "0.0.1",
+  "private": "true",
+  "description": "A sample Apigee 127 Project",
+  "keywords": [],
+  "author": "",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "a127-magic": "",
+    "async": "^0.9.0",
+    "express": "3.x.x",
+    "request": "",
+    "volos-analytics-apigee": "",
+    "volos-analytics-common": "",
+    "volos-analytics-memory": "",
+    "volos-cache-apigee": "",
+    "volos-cache-memory": "",
+    "volos-cache-redis": "",
+    "volos-oauth-apigee": "",
+    "volos-oauth-redis": "",
+    "volos-quota-apigee": "",
+    "volos-quota-memory": "",
+    "volos-quota-redis": "",
+    "volos-spikearrest-memory": ""
+  },
+  "devDependencies": {
+    "should": "4.4.x",
+    "supertest": "0.15.x"
+  },
+  "scripts": {
+    "start": "node app.js"
+  },
+  "api": {
+    "name": "api-workshop-v2",
+    "basePath": "/api-workshop-v2",
+    "docsPath": "/docs",
+    "main": "app.js"
+  }
+}
