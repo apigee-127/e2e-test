@@ -1,12 +1,8 @@
 language: node_js
 env:
   global:
-    secure: uUmnhx6VKel9xtZQzXONGYhvUsQhNSuCYDrWwlSZdp3rO0R4fZeStsGCZvyFOAnmLYgsVvJHgjkMOhrpKUNX9UC3kC4vsRzeEDDPAM0VkO+/oh8Z90oxX3zMrM3V0Ad78E8MWCdy7wDl3BiqYeBaSiVfKpJJgecSuOQFXgSu/AM=
-  CONFIG: ./mazimi.config.json
+  - secure: uUmnhx6VKel9xtZQzXONGYhvUsQhNSuCYDrWwlSZdp3rO0R4fZeStsGCZvyFOAnmLYgsVvJHgjkMOhrpKUNX9UC3kC4vsRzeEDDPAM0VkO+/oh8Z90oxX3zMrM3V0Ad78E8MWCdy7wDl3BiqYeBaSiVfKpJJgecSuOQFXgSu/AM=
+  - secure: HSDPNDGYTX+6fBPaZjtHScl3ezDU6Wbd1sRQLX9cDfhWuZfp66ivObUHwynYG3UsYvPGuNagCs39EAZ/d68zRiAIoz64/V0vsg1zf1x8aZLtOjsxC9MThv/5ajVwn7/NtHUHkelyXYjhiU+24Pswry4T7i0R4UhdzvDOlzsMUNA=
+  - secure: tst+Z6Foh/t4Fq3yc++DqiC/SBHL48ByhZSjiRiSMN8i0DUDsFrDnr/8mNne+eRd7bX6XMPZbk5fMWHKk/FolO/lojTR1s64OX94TZJaa+N2+YEctfKAR05nkXt0KKKxQzcuyxohOZzBnIiV1Lim6qh18uBqYMidD5ImWfwUkGo=
+  CONFIG: "./mazimi.config.json"
   VERSION: ''
-# matrix:
-#   include:
-#     - env:
-#         VERSION: ''
-#     - env:
-#         VERSION: beta

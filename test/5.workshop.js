@@ -60,12 +60,26 @@ describe('workshop', function() {
       setTimeout(done, (config.TIMEOUT * 3));
     });
 
-    it('makes a call to deployed API to make sure deployed API is working', function(done) {
+    it('makes a call to deployed API to make sure deployed API is working with no auth', function(done) {
       var url = 'http://' + config.USER_ORG + '-' + config.ENVIRONMENT +
-        '.apigee.net/apigee-api-workshop-v2/my-path?name=Bart&last=Simpson';
+        '.apigee.net/apigee-api-workshop-v2/restaurants';
       request(url, function(error, resp, body) {
         expect(error).to.be.falsy;
-        expect(body).to.contain('Hello, Bart Simpson');
+        expect(body).to.truthy;
+        done();
+      });
+    });
+
+    it('makes a call to get the access token', function (done) {
+
+      /*jshint camelcase: false*/
+
+      request.post('http://a127-test.apigee.net/api-workshop-v2/accesstoken', body: {
+        grant_type: 'client_credentials',
+        client_id: process.env.client_id,
+        client_secret: process.env.client_secret
+      }}, function(error, resp, body) {
+        console.log({token: body});
         done();
       });
     });
