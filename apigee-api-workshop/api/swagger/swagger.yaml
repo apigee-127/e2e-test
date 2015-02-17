@@ -1,0 +1,262 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Hello World App
+# during dev, should point to your local machine
+host: localhost
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+x-a127-config:
+  apigeeProxyKey: &apigeeProxyKey CONFIGURED
+  apigeeProxyUri: &apigeeProxyUri CONFIGURED
+x-a127-services:
+  oauth2:
+    provider: volos-oauth-apigee
+    options:
+      tokenLifetime: 300000
+      key: *apigeeProxyKey
+      uri: *apigeeProxyUri
+      #cache: mycache (See Oauth options section below.)
+      validGrantTypes:
+        - client_credentials
+        - authorization_code
+        - implicit_grant
+        - password
+      tokenPaths:  # These will be added to your paths section for you
+        authorize: /authorize
+        token: /accesstoken
+        invalidate: /invalidate
+        refresh: /refresh
+  analytics:
+    provider: volos-analytics-apigee
+    options:
+      key: *apigeeProxyKey
+      uri: *apigeeProxyUri
+      proxy: remoteEatsProxy
+      bufferSize: 1000
+      flushInterval: 2000
+      batchSize: 100
+  cache:
+    provider: volos-cache-memory
+    options:
+      name: name
+      ttl: 10000
+  quota:
+    provider: volos-quota-memory
+    options:
+      timeUnit: hour
+      interval: 1
+      allow: 2000
+paths:
+  /hello:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: hello_world
+    x-a127-apply: {}
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: hello
+      parameters:
+        - name: name
+          in: query
+          description: The name of the person to whom to say hello
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /restaurants:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: restaurants
+    x-a127-apply: 
+      cache: {}
+      quota: {}
+      analytics: {}
+    get:
+      description: Returns 'Hello' to the caller
+      # used as the method name of the controller
+      operationId: getRestaurants
+      responses:
+        "200":
+          description: Success
+          schema:
+            # a pointer to a definition
+            $ref: "#/definitions/HelloWorldResponse"
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /restaurants/{id}:
+    x-swagger-router-controller: restaurants
+    x-volos-apply: 
+      analytics: {}
+    get:
+      description: Returns a single restaurant and its reviews
+      operationId: getRestaurantByID
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: The restID of the restaurant
+          required: true
+          type: number
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        "404":
+          description: Restaurant not found
+          schema: {}
+        "500":
+          description: Invalid restaurant ID supplied
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /reviews:
+    x-swagger-router-controller: reviews
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns a list of reviews
+      operationId: getReviews
+      produces:
+        - application/json
+      parameters:
+        - name: restID
+          in: query
+          description: Get reviews for a specific restaurant
+          required: false
+          type: number
+        - name: rating
+          in: query
+          description: Get reviews with a specific rating
+          required: false
+          type: number
+        - name: reviewer
+          in: query
+          description: Get reviews by a specific user
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+    post:
+      x-volos-apply: {}
+      description: Posts a new review
+      operationId: postReview
+      parameters:
+        - name: body
+          in: body
+          description: Post review and rating
+          required: true
+          schema:
+            $ref: "#/definitions/Review"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /users:
+    x-swagger-router-controller: users
+    x-volos-authorizations: 
+      oauth2: {}
+    x-volos-apply:
+      cache: {}
+    get:
+      description: Returns a list of users
+      operationId: getUsers
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+  /users/{username}:
+    x-swagger-router-controller: users
+    x-volos-authorizations: {}
+    x-volos-apply: {}
+    get:
+      description: Returns a single user
+      operationId: getUserByID
+      produces:
+        - application/json
+      parameters:
+        - name: username
+          in: path
+          description: The username of the user
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Success
+          schema: {}
+        default:
+          description: Error
+          schema: {}
+# complex objects have schema definitions
+definitions:
+  Review:
+    properties:
+      title:
+        type: string
+      restID:
+        type: integer
+      rating:
+        type: integer
+      reviewer:
+        type: string
+      body:
+        type: string
+    required: ["title", "body", "rating"]
+  HelloWorldResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string
+securityDefinitions:
+  oauth2:
+    type: oauth2
+    scopes:
+      read: "allow read"
+    flow: application
+    tokenUrl: https://example.com/accessToken
