@@ -25,6 +25,9 @@ var configDefaults = {
 
   // Apigee Edge environment
   ENVIRONMENT: process.env.ENVIRONMENT,
+
+  // Apigee Edge Base URL.
+  APIGEE_BASE: process.env.APIGEE_BASE || 'https://api.enterprise.apigee.com'
 };
 
 var configFile = {};
