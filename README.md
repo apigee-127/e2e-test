@@ -7,6 +7,7 @@
 
 To run the test execute the following command:
 ```shell
+npm install
 npm test
 ```
 
@@ -21,10 +22,10 @@ Following options are available to set as environment variables:
 * `USER_EMAIL`: Apigee login email
 * `USER_ORG`: Apigee Organization
 * `ENVIRONMENT`: Apigee Edge environment
-
+* `APIGEE_BASE`: Apigee Edge API Base URL. Defaults to https://api.enterprise.apigee.com
 
 #### `CONFIG` environment variable
-If `CONFIG` environment variable is set to a JSON file, all options will be read from file that.
+If `CONFIG` environment variable is set to a JSON file, all options will be read from that file.
 
 For example:
 

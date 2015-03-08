@@ -56,7 +56,7 @@ describe('account', function() {
 
       var args = [config.USER_EMAIL,
         '-p', 'apigee',
-        '-b', 'https://api.enterprise.apigee.com',
+        '-b', config.APIGEE_BASE,
         '-o', config.USER_ORG,
         '-u', config.USER_EMAIL,
         '-w', PASSWORD,
