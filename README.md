@@ -1,8 +1,5 @@
 # [a127](http://a127.io/) end-to-end test suite
 
-[![Build Status](https://travis-ci.org/apigee-127/e2e-test.svg?branch=master)](https://travis-ci.org/apigee-127/e2e-test)
-
-
 ## Running the test
 
 To run the test execute the following command:
